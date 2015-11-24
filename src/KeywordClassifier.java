@@ -930,7 +930,7 @@ public static String voiceBlocks()
 		System.out.println(prog);}
 		////System.out.println(prog.contains("stdio"));
 		//prog=prog.replace("stdio","string");
-		System.out.println(prog+"}");
+		System.out.println(prog);
 		scan.close();
 
 }
