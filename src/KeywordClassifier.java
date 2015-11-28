@@ -871,9 +871,10 @@ public static String voiceBlocks()
 //	} catch (IOException e) {
 //		// TODO Auto-generated catch block
 //		e.printStackTrace();
-//	}
-//}
+//	} 
 		
+//}
+		TextEditor f=new TextEditor();
 		//String [] keywords={ "int","float","char","double"};
 		Scanner scan=new Scanner(System.in);
 		String s="";
@@ -926,7 +927,8 @@ public static String voiceBlocks()
 		{String word=alphabetRecognize();
 		 prog+=word+";\n";
 		}
-
+		
+		f.area.setText(prog);
 		System.out.println(prog);}
 		////System.out.println(prog.contains("stdio"));
 		//prog=prog.replace("stdio","string");
