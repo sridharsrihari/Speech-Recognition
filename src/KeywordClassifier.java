@@ -1,6 +1,8 @@
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 /*Include X
@@ -26,8 +28,9 @@ import java.util.Scanner;
 
 
 public class KeywordClassifier {
-	static String [] datatypes={ "int","float","char","double","long"};
-	static String prog="";
+	static ArrayList<String> al = new ArrayList<String>();
+    static String [] datatypes={ "int","float","char","double","long"};
+    static String prog="";
 public static String voiceInclude()
 {System.out.println("Include Mode");
  Scanner scan=new Scanner(System.in);
@@ -35,17 +38,17 @@ public static String voiceInclude()
  String include="";
  while(!s.equalsIgnoreCase("end"))
  {if(s.equalsIgnoreCase("standard"))
- {	 System.out.println("Standard Libraries");
-	 include+="#include<stdio.h>\n#include<conio.h>\n#include<math.h>";
-	 
+ {     System.out.println("Standard Libraries");
+     include+="#include<stdio.h>\n#include<conio.h>\n#include<math.h>";
+     
  }
  else if(s.equalsIgnoreCase("system"))
  {   System.out.println("System Libraries");
-	 include="#include<"+alphabetRecognize()+".h>";
+     include="#include<"+alphabetRecognize()+".h>";
  }
  else if(s.equalsIgnoreCase("library"))
  {   System.out.println("User Defined Libraries");
-	 include+="#include \""+alphabetRecognize()+".h\"";
+     include+="#include \""+alphabetRecognize()+".h\"";
  }
  s=scan.next();}
  System.out.println("Library Recognized: "+include);
@@ -53,7 +56,10 @@ return include+"\n";}
 
 
 public static String alphabetRecognize()
-{ System.out.println("Alphabet mode");
+{boolean upper_case=false; 
+int upper_case_start=0;
+int upper_case_end=0;
+System.out.println("Alphabet mode");
 Scanner scan=new Scanner(System.in);
 String s=scan.next();
 String word="";
@@ -61,229 +67,258 @@ while(!s.equalsIgnoreCase("end"))
 {System.out.println("Alphabet mode");
 if(s.equalsIgnoreCase("number"))
 {
-	word+=numberRecognize("integer");
+    word+=numberRecognize("integer");
+    s=scan.next();
+    continue;
+}
+else if(s.equalsIgnoreCase("capital"))
+{   System.out.println("Upper Case");
+	upper_case=true;
+	upper_case_start=word.length();
 	s=scan.next();
 	continue;
+
 }
-else if(s.equalsIgnoreCase("character"))
-{
-	word+=characterRecognize();
-	s=scan.next();
-	continue;
-}
-else if(s.equalsIgnoreCase("delete"))
-{   System.out.println(word);
-	word=word.substring(0, word.length()-1);
+else if(s.equalsIgnoreCase("small"))
+{	System.out.println("Lower Case");
+	upper_case=false;
+	String new_word=word.substring(0,upper_case_start);
+	upper_case_end=word.length();
+	for(int i=upper_case_start;i<upper_case_end;i++)
+	{	new_word+=Character.toUpperCase(word.charAt(i));;
+	}
+	word=new_word;
 	System.out.println(word);
 	s=scan.next();
 	continue;
+
+}
+else if(s.equalsIgnoreCase("character"))
+{
+    word+=characterRecognize();
+    s=scan.next();
+    continue;
+}
+else if(s.equalsIgnoreCase("delete"))
+{   System.out.println(word);
+    word=word.substring(0, word.length()-1);
+    System.out.println(word);
+    s=scan.next();
+    continue;
 }
 else if(s.contains("term"))
 {
-	word+=";";
-	s=scan.next();
-	continue;
+    word+=";";
+    s=scan.next();
+    continue;
 }
 else if(s.equalsIgnoreCase("return"))
 {
-	word+="\n";
-	s=scan.next();
-	continue;
+    word+="\n";
+    s=scan.next();
+    continue;
 }
 else if(s.equalsIgnoreCase("space"))
 {
-	word+=" ";
-	s=scan.next();
-	continue;
+    word+=" ";
+    s=scan.next();
+    continue;
 }
 switch(s.toLowerCase().charAt(0))
-	{
+    {
 case 'a':
 {word+='a';
 break;}
 case 'b':
 {
-	word+='b';
-	break;
+    word+='b';
+    break;
 }
 case 'c':
 {
-	word+='c';
-	break;
+    word+='c';
+    break;
 }
 case 'd':
 {
-	word+='d';
-	break;
+    word+='d';
+    break;
 }
 case 'e':
 {
-	word+='e';
-	break;
+    word+='e';
+    break;
 }
 case 'f':
 {
-	word+='f';
-	break;
+    word+='f';
+    break;
 }
 case 'g':
 {
-	word+='g';
-	break;
+    word+='g';
+    break;
 }
 case 'h':
 {
-	word+='h';
-	break;
+    word+='h';
+    break;
 }
 case 'i':
 {
-	word+='i';
-	break;
+    word+='i';
+    break;
 }
 case 'j':
 {
-	word+='j';
-	break;
+    word+='j';
+    break;
 }
 case 'k':
 {
-	word+='k';
-	break;
+    word+='k';
+    break;
 }
 case 'l':
 {
-	word+='l';
-	break;
+    word+='l';
+    break;
 }
 case 'm':
 {
-	word+='m';
-	break;
+    word+='m';
+    break;
 }
 case 'n':
 {
-	word+='n';
-	break;
+    word+='n';
+    break;
 }
 case 'o':
 {
-	word+='o';
-	break;
+    word+='o';
+    break;
 }
 case 'p':
 {
-	word+='p';
-	break;
+    word+='p';
+    break;
 }
 case 'q':
 {
-	word+='q';
-	break;
+    word+='q';
+    break;
 }
 case 'r':
 {
-	word+='r';
-	break;
+    word+='r';
+    break;
 }
 case 's':
 {
-	word+='s';
-	break;
+    word+='s';
+    break;
 }
 case 't':
 {
-	word+='t';
-	break;
+    word+='t';
+    break;
 }
 case 'u':
 {
-	word+='u';
-	break;
+    word+='u';
+    break;
 }
 case 'v':
 {
-	word+='v';
-	break;
+    word+='v';
+    break;
 }
 case 'w':
 {
-	word+='w';
-	break;
+    word+='w';
+    break;
 }
 case 'x':
 {
-	word+='x';
-	break;
+    word+='x';
+    break;
 }
 case 'y':
 {
-	word+='y';
-	break;
+    word+='y';
+    break;
 }
 case 'z':
 {
-	word+='z';
-	break;
+    word+='z';
+    break;
 }
-	}
+    }
 s=scan.next();
 }
 System.out.println("Word Recognized: "+word);
 return word;}
-	
+    
 public static String numberRecognize(String input)
 {System.out.println("Number Mode");
 Scanner scan=new Scanner(System.in);
 int flag_decimal_point=0;
 if(input.equalsIgnoreCase("double")|input.equalsIgnoreCase("float"))
 {
-	flag_decimal_point=1;
+    flag_decimal_point=1;
 }
 String s=scan.next();
 String num="";
 while(!s.equalsIgnoreCase("end"))
 {System.out.println("Number Mode");
-if(s.equals("point")&& flag_decimal_point==1)
-	{num+=".";}
+if(s.equalsIgnoreCase("delete"))
+{   System.out.println(num);
+    num=num.substring(0, num.length()-1);
+    System.out.println(num);
+    s=scan.next();
+    continue;
+ }
+else if(s.equals("point")&& flag_decimal_point==1)
+    {num+=".";}
 else if(s.equalsIgnoreCase("zero"))
 {num+="0";
 }
 else if(s.equalsIgnoreCase("one"))
 {
-	num+="1";
+    num+="1";
 }
 else if(s.equalsIgnoreCase("two"))
 {
-	num+="2";
+    num+="2";
 }
 else if(s.equalsIgnoreCase("three"))
 {
-	num+="3";
+    num+="3";
 }
 else if(s.equalsIgnoreCase("four"))
 {
-	num+="4";
+    num+="4";
 }
 else if(s.equalsIgnoreCase("five"))
 {
-	num+="5";
+    num+="5";
 }
 else if(s.equalsIgnoreCase("six"))
 {
-	num+="6";
+    num+="6";
 }
 else if(s.equalsIgnoreCase("seven"))
 {
-	num+="7";
+    num+="7";
 }
 else if(s.equalsIgnoreCase("eight"))
 {
-	num+="8";
+    num+="8";
 }
 else if(s.equalsIgnoreCase("nine"))
 {
-	num+="9";
+    num+="9";
 }
 System.out.println("Waiting for Input");
 s=scan.next();
@@ -300,81 +335,88 @@ public static String characterRecognize()
  String characters="";;
 while (!s.equalsIgnoreCase("end"))
 {System.out.println("Character Mode");
-if(s.equalsIgnoreCase("space"))	
-	{
-		characters+=" ";
-	}
-else if(s.equalsIgnoreCase("tab"))	
+if(s.equalsIgnoreCase("delete"))
+{   System.out.println(characters);
+characters=characters.substring(0, characters.length()-1);
+    System.out.println(characters);
+    s=scan.next();
+    continue;
+ }
+else if(s.equalsIgnoreCase("space"))    
+    {
+        characters+=" ";
+    }
+else if(s.equalsIgnoreCase("tab"))    
 {
-	characters+=" ";
+    characters+=" ";
 }
-else if(s.equalsIgnoreCase("return"))	
+else if(s.equalsIgnoreCase("return"))    
 {
-	characters+="\n";
+    characters+="\n";
 }
 else if(s.equalsIgnoreCase("not"))
 {
-	characters+="!";
+    characters+="!";
 }
-else if(s.equalsIgnoreCase("at"))	
+else if(s.equalsIgnoreCase("at"))    
 {
-	characters+="@";
+    characters+="@";
 }
-else if(s.equalsIgnoreCase("pound"))	
+else if(s.equalsIgnoreCase("pound"))    
 {
-	characters+="#";
+    characters+="#";
 }
-else if(s.equalsIgnoreCase("dollar"))	
+else if(s.equalsIgnoreCase("dollar"))    
 {
-	characters+="$";
+    characters+="$";
 }
-else if(s.equalsIgnoreCase("percent"))	
+else if(s.equalsIgnoreCase("percent"))    
 {
-	characters+="%";
+    characters+="%";
 }
-else if(s.equalsIgnoreCase("exponent"))	
+else if(s.equalsIgnoreCase("exponent"))    
 {
-	characters+="^";
+    characters+="^";
 }
-else if(s.equalsIgnoreCase("and"))	
+else if(s.equalsIgnoreCase("and"))    
 {
-	characters+="&";
+    characters+="&";
 }
-else if(s.equalsIgnoreCase("or")||s.equalsIgnoreCase("pipe"))	
+else if(s.equalsIgnoreCase("or")||s.equalsIgnoreCase("pipe"))    
 {
-	characters+="|";
+    characters+="|";
 }
-else if(s.equalsIgnoreCase("minus")||s.equalsIgnoreCase("dash"))	
+else if(s.equalsIgnoreCase("minus")||s.equalsIgnoreCase("dash"))    
 {
-	characters+="-";
+    characters+="-";
 }
-else if(s.equalsIgnoreCase("score")||s.equalsIgnoreCase("under"))	
+else if(s.equalsIgnoreCase("score")||s.equalsIgnoreCase("under"))    
 {
-	characters+="_";
+    characters+="_";
 }
-else if(s.equalsIgnoreCase("plus"))	
+else if(s.equalsIgnoreCase("plus"))    
 {
-	characters+="+";
+    characters+="+";
 }
-else if(s.equalsIgnoreCase("equal")||s.equalsIgnoreCase("equals"))	
+else if(s.equalsIgnoreCase("equal")||s.equalsIgnoreCase("equals"))    
 {
-	characters+="=";
+    characters+="=";
 }
-else if(s.equalsIgnoreCase("star"))	
+else if(s.equalsIgnoreCase("star"))    
 {
-	characters+="*";
+    characters+="*";
 }
-else if(s.equalsIgnoreCase("period")||s.equalsIgnoreCase("dot"))	
+else if(s.equalsIgnoreCase("period")||s.equalsIgnoreCase("dot"))    
 {
-	characters+=".";
+    characters+=".";
 }
-else if(s.equalsIgnoreCase("comma")||s.equalsIgnoreCase("come")||s.equalsIgnoreCase("coma"))	
+else if(s.equalsIgnoreCase("comma")||s.equalsIgnoreCase("come")||s.equalsIgnoreCase("coma"))    
 {
-	characters+=",";
+    characters+=",";
 }
-else if(s.equalsIgnoreCase("question")||s.equalsIgnoreCase("quest"))	
+else if(s.equalsIgnoreCase("question")||s.equalsIgnoreCase("quest"))    
 {
-	characters+="?";
+    characters+="?";
 }
 
 else if(s.equalsIgnoreCase("great"))
@@ -383,48 +425,48 @@ else if(s.equalsIgnoreCase("great"))
 else if(s.equalsIgnoreCase("less"))
 {characters+="<";}
 
-else if(s.equalsIgnoreCase("braces"))	
+else if(s.equalsIgnoreCase("braces"))    
 {String next=scan.next();
-	if(next.equalsIgnoreCase("open"))
-	{characters+="(";}
+    if(next.equalsIgnoreCase("open"))
+    {characters+="(";}
 else if(next.equalsIgnoreCase("close"))
-	{characters+=")";}
+    {characters+=")";}
 }
-else if(s.equalsIgnoreCase("block"))	
+else if(s.equalsIgnoreCase("block"))    
 {String next=scan.next();
-	if(next.equalsIgnoreCase("open"))
-	{characters+="{";}
+    if(next.equalsIgnoreCase("open"))
+    {characters+="{";}
 else if(next.equalsIgnoreCase("close"))
-	{characters+="}";}
+    {characters+="}";}
 }
-else if(s.equalsIgnoreCase("square"))	
+else if(s.equalsIgnoreCase("square"))    
 {String next=scan.next();
-	if(next.equalsIgnoreCase("open"))
-	{characters+="[";}
+    if(next.equalsIgnoreCase("open"))
+    {characters+="[";}
 else if(next.equalsIgnoreCase("close"))
-	{characters+="]";}
+    {characters+="]";}
 }
-	
+    
 
-else if(s.equalsIgnoreCase("quote"))	
-	
+else if(s.equalsIgnoreCase("quote"))    
+    
 {System.out.println("quote");
 String next=scan.next();
 if(next.equalsIgnoreCase("single"))
-	{characters+="'";}
+    {characters+="'";}
 else if(next.equalsIgnoreCase("double"))
-	{characters+="\"";}
+    {characters+="\"";}
 }
 else if(s.equalsIgnoreCase("slash"))
-	
+    
 {   String next=scan.next();
-	if(next.equalsIgnoreCase("forward"))
-	{characters+="/";}
+    if(next.equalsIgnoreCase("forward"))
+    {characters+="/";}
 else if(next.equalsIgnoreCase("back"))
-	{characters+="\\";}
+    {characters+="\\";}
 }
 
-else if(s.equalsIgnoreCase("colon"))	
+else if(s.equalsIgnoreCase("colon"))    
 {System.out.println("Colon");
 String next=scan.next();
 if(next.charAt(0)=='n')
@@ -437,7 +479,7 @@ System.out.println("Waiting for Input");
 s=scan.next();}
 System.out.println("Characters Recognized: "+characters);
 return characters;}
-	
+    
 public static String voiceDeclare(boolean value_flag)
 {String str="";
 System.out.println("Declare Mode");
@@ -445,9 +487,10 @@ Scanner scan=new Scanner(System.in);
 System.out.println("Waiting for type: INTEGER FLOAT DOUBLE CHARACTER POINT LIST SPELL");
 String s=scan.next();
 if(s.equals("integer"))
-	{System.out.println("Int mode");
+    {System.out.println("Int mode");
 System.out.println("Waiting for name");
 String name =alphabetRecognize();
+al.add(name);
 if(value_flag)
 {System.out.println("Waiting for value");
  String value=numberRecognize(s);
@@ -455,20 +498,21 @@ if(value_flag)
 }
 else
 {
-	str=datatypes[0]+" "+name;
+    str=datatypes[0]+" "+name;
 }
 
-	}
+    }
 else if(s.equals("float"))
 {System.out.println("Float mode");
 System.out.println("Waiting for name");
 String name =alphabetRecognize();
+al.add(name);
 if(value_flag)
 {System.out.println("Waiting for value");
 String value=numberRecognize(s);
 str=datatypes[1]+" "+name+" = "+value;}
 else
-	{str=datatypes[1]+" "+name;}
+    {str=datatypes[1]+" "+name;}
 System.out.println(str);
 
 }
@@ -476,10 +520,11 @@ else if(s.equals("character"))
 {System.out.println("Character mode");
 System.out.println("Waiting for name");
 String name =scan.next();
+al.add(name);
 if(value_flag)
 {System.out.println("Waiting for value");
-	char value=scan.next().charAt(0);
-	 str=datatypes[2]+" "+name+" = "+"'"+value+"'";
+    char value=scan.next().charAt(0);
+     str=datatypes[2]+" "+name+" = "+"'"+value+"'";
 }
 else
 {str=datatypes[2]+" "+name;}
@@ -489,13 +534,14 @@ else if(s.equals("double"))
 {System.out.println("Double mode");
 System.out.println("Waiting for name");
 String name =alphabetRecognize();
+al.add(name);
 if(value_flag)
 {System.out.println("Waiting for value");
 String value=numberRecognize(s);
  str=datatypes[3]+" "+name+" = "+value;}
 else
 {
-	str=datatypes[3]+" "+name;
+    str=datatypes[3]+" "+name;
 }
 
 }
@@ -504,14 +550,15 @@ else if(s.equals("long"))
 System.out.println("Long mode");
 System.out.println("Waiting for name");
 String name =alphabetRecognize();
+al.add(name);
 if(value_flag)
-{	System.out.println("Waiting for value");
-	String value=numberRecognize(s);
-	str=datatypes[4]+" "+name+" = "+value;
+{    System.out.println("Waiting for value");
+    String value=numberRecognize(s);
+    str=datatypes[4]+" "+name+" = "+value;
 }
 else
 {
-	str=datatypes[4]+" "+name;
+    str=datatypes[4]+" "+name;
 }
 
 }
@@ -521,37 +568,38 @@ System.out.println("Waiting for type");
 String type =scan.next();
 if(!type.equalsIgnoreCase("double")||!type.equalsIgnoreCase("float")||!type.equalsIgnoreCase("long"))
 {   
-	 if(type.equalsIgnoreCase("character"))
-		{
-		type="char";
-		}
-	if(type.equalsIgnoreCase("integer"))
-		{
-		type="int";
-		}
-	if(type.equalsIgnoreCase("spell")||type.equalsIgnoreCase("sell"))
-		{
-		type=alphabetRecognize();
-		}
+     if(type.equalsIgnoreCase("character"))
+        {
+        type="char";
+        }
+    if(type.equalsIgnoreCase("integer"))
+        {
+        type="int";
+        }
+    if(type.equalsIgnoreCase("spell")||type.equalsIgnoreCase("sell"))
+        {
+        type=alphabetRecognize();
+        }
 }
 System.out.println("Waiting for name");
 String name =alphabetRecognize();
+al.add(name);
 if(value_flag)
 {System.out.println("Waiting for value. Null if left undefined.");
 String value=alphabetRecognize();
-	if(value.length()>0)
-	{
-		str=type+"* "+name+" = NULL";
-	}
+    if(value.length()>0)
+    {
+        str=type+"* "+name+" = NULL";
+    }
 
-	else
-	{
-		str=type+"* "+name+" = &"+value;
-	}
+    else
+    {
+        str=type+"* "+name+" = &"+value;
+    }
 }
 else
 {
-	str=type+"* "+name;
+    str=type+"* "+name;
 }
 
 }
@@ -562,30 +610,31 @@ System.out.println("Waiting for type");
 String type =scan.next();
 if(!type.equalsIgnoreCase("double")||!type.equalsIgnoreCase("float")||!type.equalsIgnoreCase("long"))
 {   if(type.equalsIgnoreCase("character"))
-	{
-	type="char";
-	}
-	if(type.equalsIgnoreCase("integer"))
-	{
-		type="int";
-	}
-	
-	
-	if(type.equalsIgnoreCase("spell")||type.equalsIgnoreCase("sell"))
-	{
-		type=alphabetRecognize();
-	}
+    {
+    type="char";
+    }
+    if(type.equalsIgnoreCase("integer"))
+    {
+        type="int";
+    }
+    
+    
+    if(type.equalsIgnoreCase("spell")||type.equalsIgnoreCase("sell"))
+    {
+        type=alphabetRecognize();
+    }
 }
 System.out.println("Waiting for size");
 String size=numberRecognize("integer");//No Value Flag - Does not assign values to array.
 System.out.println("Waiting for name");
 String name =alphabetRecognize();
+al.add(name);
 //String value=alphabetRecognize();
  str=type+" "+name+"["+size+"]";
 
 }
 
-else if(s.equalsIgnoreCase("spell")||s.equalsIgnoreCase("sell"))
+else if(s.equalsIgnoreCase("spell")||s.equalsIgnoreCase("sell"))//add to arraylist
 {System.out.println("User Control mode");
 String value=alphabetRecognize();
  str=value;
@@ -597,46 +646,46 @@ public static String voiceStructure()
 {   Scanner scan=new Scanner(System.in);
     String s="";
     String body="";
-	System.out.println("Structure mode");
-	System.out.println("Waiting for name");
+    System.out.println("Structure mode");
+    System.out.println("Waiting for name");
     String name=alphabetRecognize();
-	String structure= "struct " + name +" \n{";
-	do
-	{System.out.println("Waiting for struct members");
-	body+= voiceDeclare(false);
-	s=scan.next();}while(s.equalsIgnoreCase("next"));
-	structure+=body;
-	structure+="};\ntypedef struct "+name+" "+name+";";
-	return structure;
+    String structure= "struct " + name +" \n{";
+    do
+    {System.out.println("Waiting for struct members");
+    body+= voiceDeclare(false);
+    s=scan.next();}while(s.equalsIgnoreCase("next"));
+    structure+=body;
+    structure+="};\ntypedef struct "+name+" "+name+";";
+    return structure;
 }
 
 public static String voicePrint()
 {
-	Scanner scan=new Scanner(System.in);
-	System.out.println("Print mode");
-	String all="";
-	System.out.println("Waiting for message");
-	String value =scan.next();
-	while(!value.equalsIgnoreCase("end"))
-	{ if(all.length()==0)
-	{all+=value;}
-	else
-	{all=all+" "+value;}
-	value=scan.next();
-	
+    Scanner scan=new Scanner(System.in);
+    System.out.println("Print mode");
+    String all="";
+    System.out.println("Waiting for message");
+    String value =scan.next();
+    while(!value.equalsIgnoreCase("end"))
+    { if(all.length()==0)
+    {all+=value;}
+    else
+    {all=all+" "+value;}
+    value=scan.next();
+    
 }
 return "printf(\""+all+"\")";
 }
 
 public static String voiceControlStructures()
 {System.out.println("Control Structures Mode");
-	Scanner scan=new Scanner(System.in);
-	System.out.println("Waiting for control structure: IF FOR WHILE DO-WHILE");
-	String s=scan.next();
-	String word="";
-	if(s.startsWith("i"))
+    Scanner scan=new Scanner(System.in);
+    System.out.println("Waiting for control structure: IF FOR WHILE DO-WHILE");
+    String s=scan.next();
+    String word="";
+    if(s.startsWith("i"))
      {System.out.println("If Block");
-	  String condition=alphabetRecognize();
+      String condition=alphabetRecognize();
       word+="if("+condition+")\n";
       String block=voiceBlocks();//replace 
       word+="{\n"+block+"\n}\n";
@@ -644,297 +693,428 @@ public static String voiceControlStructures()
       if(next.equalsIgnoreCase("end"))
       {return word;}
       else if(next.equalsIgnoreCase("next"))
-	   {do
-	   {
-    	  System.out.println("Else If Block");
-		  String condition_next=alphabetRecognize();
-	      word+="else if("+condition_next+")\n";
-	      String block_next=voiceBlocks();//replace 
-	      word+="{\n"+block_next+"\n}\n";
-	      next=scan.next();
-	   }while(next.equalsIgnoreCase("next"));
-	   }
-	  if(next.equalsIgnoreCase("last"))
-	 {	  System.out.println("Else Block");
-	      word+="else\n";
-	      String block_last=voiceBlocks();//replace 
-	      word+="{\n"+block_last+"\n}\n";
-	      
-	 }
-	  }
-	else if(s.equalsIgnoreCase("while"))
-	{
-		  System.out.println("While Block");
-		  String condition=alphabetRecognize();
-	      word+="while("+condition+")\n";
-	      String block=voiceBlocks();//replace 
-	      word+="{\n"+block+"\n}\n";
-	      
-	}
-	else if(s.equalsIgnoreCase("for"))
-	{
-		  System.out.println("For Block");
-		  String condition=alphabetRecognize();
-	      word+="for("+condition+")\n";
-	      String block=voiceBlocks();//replace 
-	      word+="{\n"+block+"\n}\n";
-	      
-		
-	}
-	else if(s.startsWith("do"))
-	{
-		  System.out.println("For Block");
-	      String block=voiceBlocks();//replace 
-	      word+="do\n{\n"+block+"\n}\n";
-		  String condition=voiceBlocks();
-	      word+="while("+condition+");\n";
-	    
-	      
-		
-	}
+       {do
+       {
+          System.out.println("Else If Block");
+          String condition_next=alphabetRecognize();
+          word+="else if("+condition_next+")\n";
+          String block_next=voiceBlocks();//replace 
+          word+="{\n"+block_next+"\n}\n";
+          next=scan.next();
+       }while(next.equalsIgnoreCase("next"));
+       }
+      if(next.equalsIgnoreCase("last"))
+     {      System.out.println("Else Block");
+          word+="else\n";
+          String block_last=voiceBlocks();//replace 
+          word+="{\n"+block_last+"\n}\n";
+          
+     }
+      }
+    else if(s.equalsIgnoreCase("while"))
+    {
+          System.out.println("While Block");
+          String condition=alphabetRecognize();
+          word+="while("+condition+")\n";
+          String block=voiceBlocks();//replace 
+          word+="{\n"+block+"\n}\n";
+          
+    }
+    else if(s.equalsIgnoreCase("for"))
+    {
+          System.out.println("For Block");
+          String condition=alphabetRecognize();
+          word+="for("+condition+")\n";
+          String block=voiceBlocks();//replace 
+          word+="{\n"+block+"\n}\n";
+          
+        
+    }
+    else if(s.startsWith("do"))
+    {
+          System.out.println("For Block");
+          String block=voiceBlocks();//replace 
+          word+="do\n{\n"+block+"\n}\n";
+          String condition=voiceBlocks();
+          word+="while("+condition+");\n";
+        
+          
+        
+    }
 return word;}
 
 public static String voiceFunction()
 {   System.out.println("Function Mode");
-	Scanner scan=new Scanner(System.in);
-	System.out.println("Waiting for Declare/Call");
-	String declare_call=scan.next();
-	String function="";
-	if(declare_call.equalsIgnoreCase("declare"))
-	{System.out.println("Declare Function Mode Waiting for Return Type VOID SPELL DATATYPES");
-	String type =scan.next();
-	if(!type.equalsIgnoreCase("double")||!type.equalsIgnoreCase("float")||!type.equalsIgnoreCase("long"))
-	{   if(type.equalsIgnoreCase("character"))
-		{
-		type="char";
-		}
-		if(type.equalsIgnoreCase("integer"))
-		{
-			type="int";
-		}
-		if(type.equalsIgnoreCase("void") || type.equalsIgnoreCase("None") || type.equalsIgnoreCase("zero"))
-		{
-			type="void";
-		}
-		
-		if(type.equalsIgnoreCase("spell")||type.equalsIgnoreCase("sell"))
-		{
-			type=alphabetRecognize();
-		}
-	}
-	function+=type+" ";
-	System.out.println("Waiting for funciton name");
-	String name=alphabetRecognize();
-	System.out.println("Waiting for Parameters");
-	function+=name;
-	String s=scan.next();
-	String parameter="";
-	String parameters="";
-	boolean void_flag=true;
+    Scanner scan=new Scanner(System.in);
+    System.out.println("Waiting for Declare/Call");
+    String declare_call=scan.next();
+    String function="";
+    if(declare_call.equalsIgnoreCase("declare"))
+    {System.out.println("Declare Function Mode Waiting for Return Type VOID SPELL DATATYPES");
+    String type =scan.next();
+    if(!type.equalsIgnoreCase("double")||!type.equalsIgnoreCase("float")||!type.equalsIgnoreCase("long"))
+    {   if(type.equalsIgnoreCase("character"))
+        {
+        type="char";
+        }
+        if(type.equalsIgnoreCase("integer"))
+        {
+            type="int";
+        }
+        if(type.equalsIgnoreCase("void") || type.equalsIgnoreCase("None") || type.equalsIgnoreCase("zero"))
+        {
+            type="void";
+        }
+        
+        if(type.equalsIgnoreCase("spell")||type.equalsIgnoreCase("sell"))
+        {
+            type=alphabetRecognize();
+        }
+    }
+    function+=type+" ";
+    System.out.println("Waiting for funciton name");
+    String name=alphabetRecognize();
+    System.out.println("Waiting for Parameters");
+    function+=name;
+    String s=scan.next();
+    String parameter="";
+    String parameters="";
+    boolean void_flag=true;
 
-	if(!s.equalsIgnoreCase("void") && !s.equalsIgnoreCase("None") && !s.equalsIgnoreCase("zero"))
-		{void_flag=false;
-		do
-		{if(!s.equalsIgnoreCase("double")||!s.equalsIgnoreCase("float")||!s.equalsIgnoreCase("long"))//else if replace put segment inside function.
-	{   if(s.equalsIgnoreCase("character"))
-		{
-		parameter="char";
-		}
-		if(s.equalsIgnoreCase("integer"))
-		{
-			parameter="int";
-		}
-		
-		
-		if(s.equalsIgnoreCase("spell")||s.equalsIgnoreCase("sell"))
-		{
-			parameter=alphabetRecognize();
-		}
-	}    if(parameters.length()==0)
-	      {parameters+=parameter;}
-	     else
-		 {parameters+=", "+parameter;}
-		 s=scan.next();
-		}while(s.equalsIgnoreCase("next"));
-		}
-	System.out.println("Waiting for block");
-	String block=voiceBlocks();
-	function+="("+parameters+")\n{\n"+block+"\n}";}
+    if(!s.equalsIgnoreCase("void") && !s.equalsIgnoreCase("None") && !s.equalsIgnoreCase("zero"))
+        {void_flag=false;
+        do
+        {if(!s.equalsIgnoreCase("double")||!s.equalsIgnoreCase("float")||!s.equalsIgnoreCase("long"))//else if replace put segment inside function.
+    {   if(s.equalsIgnoreCase("character"))
+        {
+        parameter="char";
+        }
+        if(s.equalsIgnoreCase("integer"))
+        {
+            parameter="int";
+        }
+        
+        
+        if(s.equalsIgnoreCase("spell")||s.equalsIgnoreCase("sell"))
+        {
+            parameter=alphabetRecognize();
+        }
+    }    if(parameters.length()==0)
+          {parameters+=parameter;}
+         else
+         {parameters+=", "+parameter;}
+         s=scan.next();
+        }while(s.equalsIgnoreCase("next"));
+        }
+    System.out.println("Waiting for block");
+    String block=voiceBlocks();
+    function+="("+parameters+")\n{\n"+block+"\n}";}
     
-	else if(declare_call.equalsIgnoreCase("call"))
-	{System.out.println("Waiting for function Call");
-		function=alphabetRecognize();
-		String parameters="";
-		String s;
-		do
-		{
-		String parameter=alphabetRecognize();
-		 if(parameters.length()==0)
-	      {parameters+=parameter;}
-	     else
-		 {parameters+=", "+parameter;}
-		 s=scan.next();
-	}while(s.equalsIgnoreCase("next"));
-	}
+    else if(declare_call.equalsIgnoreCase("call"))
+    {System.out.println("Waiting for function Call");
+        function=alphabetRecognize();
+        String parameters="";
+        String s;
+        do
+        {
+        String parameter=alphabetRecognize();
+         if(parameters.length()==0)
+          {parameters+=parameter;}
+         else
+         {parameters+=", "+parameter;}
+         s=scan.next();
+    }while(s.equalsIgnoreCase("next"));
+    }
 return function;}
 
 public static String voiceInput()
 {
-	Scanner scan=new Scanner(System.in);
-	System.out.println("Input mode");
-	String all="";
-	System.out.println("Waiting for value");
-	String value =scan.next();
-	System.out.println("Waiting for variable type");
-	String variable=alphabetRecognize();
-	String variables="";
-	while(!value.equalsIgnoreCase("end"))
-	{ if(value.equalsIgnoreCase("integer"))
-		{value="%d";
-		}
-	else if(value.equalsIgnoreCase("character"))
-		{value="%c";}
-	else if(value.equalsIgnoreCase("float"))
-	{value="%f";}
-	else if(value.equalsIgnoreCase("double"))
-	{value="%lf";}
-	else if(value.equalsIgnoreCase("long"))
-	{value="%ld";}
-	else if(value.equalsIgnoreCase("string"))
-	{value="%s";}
-	
-	if(all.length()==0)
-	{all+=value;
-	variables+="&"+variable;}
-	else
-	{
-	all=all+" "+value;
-	variables +=", &"+variable;}
-	System.out.println("Waiting for next variable type");
-	value=scan.next();
-	if(value.equalsIgnoreCase("end"))
-	{
-		break;
-	}
-	System.out.println("Waiting for next variable name");
-	variable=scan.next();
+    Scanner scan=new Scanner(System.in);
+    System.out.println("Input mode");
+    String all="";
+    System.out.println("Waiting for value");
+    String value =scan.next();
+    System.out.println("Waiting for variable type");
+    String variable=alphabetRecognize();
+    String variables="";
+    while(!value.equalsIgnoreCase("end"))
+    { if(value.equalsIgnoreCase("integer"))
+        {value="%d";
+        }
+    else if(value.equalsIgnoreCase("character"))
+        {value="%c";}
+    else if(value.equalsIgnoreCase("float"))
+    {value="%f";}
+    else if(value.equalsIgnoreCase("double"))
+    {value="%lf";}
+    else if(value.equalsIgnoreCase("long"))
+    {value="%ld";}
+    else if(value.equalsIgnoreCase("string"))
+    {value="%s";}
+    
+    if(all.length()==0)
+    {all+=value;
+    variables+="&"+variable;}
+    else
+    {
+    all=all+" "+value;
+    variables +=", &"+variable;}
+    System.out.println("Waiting for next variable type");
+    value=scan.next();
+    if(value.equalsIgnoreCase("end"))
+    {
+        break;
+    }
+    System.out.println("Waiting for next variable name");
+    variable=scan.next();
 }
 
 return "scanf(\""+all+"\","+variables+");";
 }
-	
+    
 
 public static String voiceBlocks()
 
 {   System.out.println("Block Mode");
-	Scanner scan=new Scanner(System.in);
-	String block="";
-	String s=scan.next();
-	while(!s.equalsIgnoreCase("exit"))
-	{
-		if(s.equalsIgnoreCase("declare"))
-		{
-			block+=voiceDeclare(true);
-		}
-		else if(s.equalsIgnoreCase("change"))
-		{String word=alphabetRecognize();
-		 block+=word+"\n";
-		}
-		else if(s.equalsIgnoreCase("input"))
-		{
-			block+=voiceInput()+"\n";
-		}
-		else if(s.equals("print"))
-		{block+=voicePrint()+";\n";}
-		else if(s.equalsIgnoreCase("structure"))
-		{
-			block+=voiceStructure()+"\n";
-		}
-		else if(s.equalsIgnoreCase("function"))
-		{
-			block+=voiceFunction()+"\n";
-		}
-		else if(s.equalsIgnoreCase("spell"))
-		{String word=alphabetRecognize();
-		 block+=word+";\n";
-		}
-	System.out.println("Waiting for Block");	
-	s=scan.next();}
-	return block;
+    Scanner scan=new Scanner(System.in);
+    String block="";
+    String s=scan.next();
+    while(!s.equalsIgnoreCase("exit"))
+    {
+        if(s.equalsIgnoreCase("declare"))
+        {
+            block+=voiceDeclare(true);
+        }
+        else if(s.equalsIgnoreCase("change"))
+        {String word=alphabetRecognize();
+         block+=word+"\n";
+        }
+        else if(s.equalsIgnoreCase("input"))
+        {
+            block+=voiceInput()+"\n";
+        }
+        else if(s.equals("print"))
+        {block+=voicePrint()+";\n";}
+        else if(s.equalsIgnoreCase("structure"))
+        {
+            block+=voiceStructure()+"\n";
+        }
+        else if(s.equalsIgnoreCase("function"))
+        {
+            block+=voiceFunction()+"\n";
+        }
+        else if(s.equalsIgnoreCase("spell"))
+        {String word=alphabetRecognize();
+         block+=word+";\n";
+        }
+    System.out.println("Waiting for Block");    
+    s=scan.next();}
+    return block;
 }
+
+public static String variableChange()
+{   Collections.sort(al);
 	
-	public static void main(String args[])
-	{
-//	{   Desktop dt = Desktop.getDesktop();
+	ArrayList<String> activeList=new ArrayList<String>();
+    for(String k:al)
+    {
+    	System.out.println(k);
+    }
+    String variable=alphabetRecognize();
+    int max=0;
+    int min=0;
+    
+    for(int i=0;i<al.size();i++)
+    {
+    	if(al.get(i).startsWith(variable))
+    	{
+    		min=i;
+    		max=i;
+    		
+    	while(max<al.size()&&al.get(max).startsWith(variable))
+    	{	
+    		activeList.add(al.get(max));
+    		max++;
+    	}
+ 
+    		
+    		break;
+    		
+    	}
+    }
+    	Scanner scan=new Scanner(System.in);
+    	int start=-1;
+    	int size=activeList.size();
+    	String s="next";
+    	while(!s.equalsIgnoreCase("end"))    	
+    	{	
+    		if(s.equalsIgnoreCase("next"))
+    		{	variable=activeList.get((++start)%activeList.size());
+    			System.out.println(prog+"\n"+variable);
+    		}
+    		else if(s.equalsIgnoreCase("previous"))
+    		{
+    		if(start==0)
+    		{
+    			start=size-1;
+    		}
+    		else
+    			{start--;}
+    		
+    		variable=activeList.get(start%activeList.size());
+    		System.out.println(prog+"\n"+variable);
+    		//System.out.println(s);
+    		}
+    		s=scan.next();
+
+    	}
+    
+    return variable;
+}
+
+public static String voiceEdit()
+{
+	String edit="";
+	Scanner scan=new Scanner(System.in);
+	
+	return edit;
+}
+
+public static void voice()
+{ String s="";
+
+voce.SpeechInterface.setRecognizerEnabled(true);
+		System.out.println("This is a speech recognition test. " 
+			+ "Speak digits from 0-9 into the microphone. " 
+			+ "Speak 'quit' to quit."); 
+
+		boolean quit = false;
+		while (!quit)
+		{
+			// Normally, applications would do application-specific things 
+			// here.  For this sample, we'll just sleep for a little bit.
+			try
+			{
+				Thread.sleep(200);
+			}
+			catch (InterruptedException e)
+			{
+			}
+
+			while (voce.SpeechInterface.getRecognizerQueueSize() > 0)
+			{    String k=voce.SpeechInterface.popRecognizedString();
+				 s += k.charAt(0);
+
+				// Check if the string contains 'quit'.
+				if (-1 != k.indexOf("end"))
+				{
+					quit = true;
+				}
+
+				System.out.println("You said: " + k);
+				//voce.SpeechSynthesizer.init();
+				//voce.SpeechInterface.synthesize(k);
+			}
+		}
+
+		voce.SpeechInterface.setRecognizerEnabled(false);
+		
+}
+    
+    public static void main(String args[])
+    {
+//    {   Desktop dt = Desktop.getDesktop();
 //    try {
-//		dt.open( new File("FileName.csv") );
-//	} catch (IOException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	} 
-		
-//}
-		TextEditor f=new TextEditor();
-		//String [] keywords={ "int","float","char","double"};
-		Scanner scan=new Scanner(System.in);
-		String s="";
-		while(!s.equalsIgnoreCase("exit"))
-		{System.out.println("Main Mode");
-		s=scan.next();
-		if(s.equals("declare"))
-		do
-		{prog+=voiceDeclare(true);
-		s=scan.next();
-		}
-		while(s.equals("next"));
-		
-		else if(s.equalsIgnoreCase("include"))
-		{
-			String include=voiceInclude();
-			prog+=include+"\n";
-		}
-	    
-		else if(s.equalsIgnoreCase("structure"))
-		{
-			prog+=voiceStructure()+"\n";
-		}
-		else if(s.equalsIgnoreCase("function"))
-		{
-			prog+=voiceFunction()+"\n";
-		}
-		else if(s.equals("print"))
-		{prog+=voicePrint()+";\n";}
-		
+//        dt.open( new File("FileName.csv") );
+//    } catch (IOException e) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//    } 
+        String word="";
+        
+//}	
+        voce.SpeechInterface.init("C:/Users/Sri/Desktop/voce-0.9.1/voce-0.9.1/lib", false, true, 
+		"file:C:/Users/Sri/Desktop/voce-0.9.1/voce-0.9.1/lib/gram", "speech");
+        voce.SpeechInterface.setRecognizerEnabled(false);
+        TextEditor f=new TextEditor();
+        //String [] keywords={ "int","float","char","double"};
+        Scanner scan=new Scanner(System.in);
+        String s="";
+        while(!s.equalsIgnoreCase("exit"))
+        {word="";
+        boolean declare=false;
+        System.out.println("Main Mode");
+        s=scan.next();
+        if(s.equals("declare"))
+        {declare=true;
+        do
+        {word=voiceDeclare(true);
+        prog+=word;
+        f.area.setText(f.area.getText()+word);
+        s=scan.next();
+        
+        }
+        while(s.equals("next"));
+        }
+        
+        else if(s.equalsIgnoreCase("include"))
+        {
+            word=voiceInclude()+"\n";
+            prog+=word;
+        }
+        
+        else if(s.equalsIgnoreCase("structure"))
+        {   word=voiceStructure()+"\n";
+            prog+=word;
+        }
+        else if(s.equalsIgnoreCase("function"))
+        {     word=voiceFunction()+"\n";
+            prog+=word;
+        }
+        else if(s.equals("print"))
+        {word=voicePrint()+";\n";
+            prog+=word;}
+        
 
-		else if(s.equalsIgnoreCase("character"))
-		{String word=characterRecognize();
-		 prog+=word+"\n";
-		}
-		else if(s.equalsIgnoreCase("change"))//use only if there is a running list of  variables
-		{String word=alphabetRecognize();
-		 prog+=word+"\n";
-		}
-		else if(s.equalsIgnoreCase("control"))
-		{String word=voiceControlStructures();
-		 prog+=word+"\n";
-		}
-		else if(s.equalsIgnoreCase("input"))
-		{
-			prog+=voiceInput()+"\n";
-		}
-		
-		else if(s.equalsIgnoreCase("spell"))
-		{String word=alphabetRecognize();
-		 prog+=word+";\n";
-		}
-		
-		f.area.setText(prog);
-		System.out.println(prog);}
-		////System.out.println(prog.contains("stdio"));
-		//prog=prog.replace("stdio","string");
-		System.out.println(prog);
-		scan.close();
+        else if(s.equalsIgnoreCase("character"))
+        {word=characterRecognize()+"\n";
+         prog+=word;
+        }
+        else if(s.equalsIgnoreCase("change"))//use only if there is a running list of  variables
+        {word=variableChange()+"\n";
+        //alphabetRecognize()+"\n";
+         prog+=word;
+        }
+        else if(s.equalsIgnoreCase("control"))
+        {word=voiceControlStructures()+"\n";
+         prog+=word;
+        }
+        else if(s.equalsIgnoreCase("input"))
+        {    word=voiceInput()+"\n";
+            prog+=word;
+        }
+        else if(s.equalsIgnoreCase("edit"))
+        {
+        	alphabetRecognize();
+        }
+        
+        else if(s.equalsIgnoreCase("spell"))
+        {word=alphabetRecognize();
+         prog+=word+";\n";
+        }
+        else if(s.equalsIgnoreCase("test"))
+        {voice();
+        }
+        if(!declare)
+        {f.area.setText(f.area.getText()+word);
+        }
+        System.out.println(prog);
+        }
+        ////System.out.println(prog.contains("stdio"));
+        //prog=prog.replace("stdio","string");
+        System.out.println(prog);
+        scan.close();
+
 
 }
 }
-

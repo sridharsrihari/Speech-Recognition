@@ -65,7 +65,7 @@ public class TextEditor extends JFrame{
 		}
 	};
 	
-	Action Open = new AbstractAction("Open", new ImageIcon("open.gif")) {
+	Action Open = new AbstractAction("Open", new ImageIcon("C:/Users/Sri/Documents/GitHub/Speech-Recognition/JTEditor/open.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			saveOld();
 			if(dialog.showOpenDialog(null)==JFileChooser.APPROVE_OPTION) {
@@ -75,7 +75,7 @@ public class TextEditor extends JFrame{
 		}
 	};
 	
-	Action Save = new AbstractAction("Save", new ImageIcon("save.gif")) {
+	Action Save = new AbstractAction("Save", new ImageIcon("C:/Users/Sri/Documents/GitHub/Speech-Recognition/JTEditor/save.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			if(!currentFile.equals("Untitled"))
 				saveFile(currentFile);
@@ -97,7 +97,7 @@ public class TextEditor extends JFrame{
 		}
 	};
 	
-	Action New = new AbstractAction("New", new ImageIcon("Path/image.gif")) {
+	Action New = new AbstractAction("New", new ImageIcon("C:/Users/Sri/Documents/GitHub/Speech-Recognition/JTEditor/new.gif")) {
 		public void actionPerformed(ActionEvent e) {
 			saveOld();
 			area.setText("");
