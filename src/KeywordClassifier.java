@@ -139,7 +139,7 @@ else if(s.contains("term"))
 }
 else if(s.equalsIgnoreCase("return")||s.equalsIgnoreCase("line")||s.equalsIgnoreCase("enter"))
 {   System.out.println("NEW ++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-    word+=";\n";
+    word+="\n";
     s=voceRecognize();
     //s=scan.next();
     continue;
@@ -435,7 +435,7 @@ else if(s.equalsIgnoreCase("exponent"))
 {
     characters+="^";
 }
-else if(s.equalsIgnoreCase("and"))    
+else if(s.equalsIgnoreCase("and")||s.equalsIgnoreCase("intersect"))    
 {
     characters+="&";
 }
@@ -1067,7 +1067,7 @@ public static String voiceBlocks()
 {   System.out.println("Block Mode");
     Scanner scan=new Scanner(System.in);
     String block="";
-   int start_index=al.size()-1;
+   int start_index=al.size();
     //String s=scan.next();
     String s=voceRecognize();
     while(!s.equalsIgnoreCase("end"))
@@ -1075,9 +1075,13 @@ public static String voiceBlocks()
         if(s.equalsIgnoreCase("declare"))
         {
             block+=voiceDeclare(true);
+            for(String p:al)
+            	{
+            	System.out.println(p);
+            	}
         }
         else if(s.equalsIgnoreCase("change"))
-        {String word=alphabetRecognize();
+        {String word=variableChange();
          block+=word+"\n";
         }
         else if(s.equalsIgnoreCase("input"))
@@ -1108,16 +1112,20 @@ public static String voiceBlocks()
     	for(int i=start_index;i<=end_index;i++)
     	{
     		al.remove(i);
+    		i-=1;
+    		end_index-=1;
+    		
     	}
     }
     return block;
 }
 
 public static String variableChange()
-{   Collections.sort(al);
+{   ArrayList<String>al_copy=al;
+	Collections.sort(al_copy);
 	
 	ArrayList<String> activeList=new ArrayList<String>();
-    for(String k:al)
+    for(String k:al_copy)
     {
     	System.out.println(k);
     }
@@ -1125,16 +1133,16 @@ public static String variableChange()
     int max=0;
     int min=0;
     
-    for(int i=0;i<al.size();i++)
+    for(int i=0;i<al_copy.size();i++)
     {
-    	if(al.get(i).startsWith(variable))
+    	if(al_copy.get(i).startsWith(variable))
     	{
     		min=i;
     		max=i;
     		
-    	while(max<al.size()&&al.get(max).startsWith(variable))
+    	while(max<al_copy.size()&&al_copy.get(max).startsWith(variable))
     	{	
-    		activeList.add(al.get(max));
+    		activeList.add(al_copy.get(max));
     		max++;
     	}
  
@@ -1347,11 +1355,11 @@ public static String voiceEdit()
 		System.out.println("Enter the line number where the word is to be copied from");
 		int line_number_copy=getLineNumber();
 		System.out.println("Enter the word number in the line for copying.");
-		int word_number_copy=getLineNumber();
+		int word_number_copy=getWordNumber();
 		System.out.println("Enter the line number where the word is to be pasted");
 		int line_number_paste=getLineNumber();
 		System.out.println("Enter the word number in the line after which the string will be pasted.");
-		int word_number_paste=getLineNumber();
+		int word_number_paste=getWordNumber();
 		
 		String line="";
 		String []prog_lines=prog.split("\\r?\\n");
@@ -1359,22 +1367,33 @@ public static String voiceEdit()
 		{
 			line=prog_lines[line_number_copy-1];
 			String []line_words=line.split("\\s");
-			if(word_number_copy<=line_words.length)
-			{
+			line=prog_lines[line_number_paste-1];
+			String []line_words_paste=line.split("\\s");
+			line="";
+			
+			if(word_number_copy<=line_words.length&&word_number_paste<=line_words.length)
+			{prog="";
 			String word=line_words[word_number_copy-1];
-			for(int i=0;i<line_words.length;i++)
+			if(word_number_paste==0)
 			{
-				if(i==word_number_paste)
+				line=word+prog_lines[line_number_paste-1];
+			}
+			else
+			{
+			for(int i=0;i<line_words_paste.length;i++)
+			{
+				if(i==word_number_paste-1)
 				{
-					line+=line_words[i]+" "+word;
+					line+=line_words_paste[i]+" "+word;
 				}
 				else
 				{
-					line+=line_words[i]+" ";
+					line+=line_words_paste[i]+" ";
 				}
 			}
+			}
 			for(int i=0;i<prog_lines.length;i++)
-			{if(i==line_number_copy-1)
+			{if(i==line_number_paste-1)
 			{prog+=line+"\n";}
 			else
 			{
@@ -1397,46 +1416,60 @@ public static String voiceEdit()
 		System.out.println("Enter the line number where the word is to be copied from");
 		int line_number_copy=getLineNumber();
 		System.out.println("Enter the word number in the line for copying.");
-		int word_number_copy=getLineNumber();
+		int word_number_copy=getWordNumber();
 		System.out.println("Enter the line number where the word is to be pasted");
 		int line_number_paste=getLineNumber();
 		System.out.println("Enter the word number in the line after which the string will be pasted.");
-		int word_number_paste=getLineNumber();
+		int word_number_paste=getWordNumber();
 		
 		String line="";
 		String []prog_lines=prog.split("\\r?\\n");
-		if(line_number_copy<=prog_lines.length)
+		if(line_number_copy<=prog_lines.length&&line_number_paste<=prog_lines.length)
 		{
 			line=prog_lines[line_number_copy-1];
-			String []line_words=line.split("\\s");
-			if(word_number_copy<=line_words.length)
-			{
-			String word=line_words[word_number_copy-1];
-			if(word_number_copy==0)
-			{
-				line=word+line;
-			}
-			else
-			{
-			for(int i=0;i<line_words.length;i++)
-			{	if(i==word_number_copy)
+			String []line_copy_words=line.split("\\s");
+			line=prog_lines[line_number_paste-1];
+			String []line_paste_words=line.split("\\s");
+			line="";
+			String line_paste="";
+			if(word_number_copy<=line_copy_words.length && word_number_paste<=line_paste_words.length)
+			{prog="";
+			String word=line_copy_words[word_number_copy-1];
+			for(int i=0;i<line_copy_words.length;i++)
+			{	if(i==word_number_copy-1)
 				{
 				 continue;
 				}
-				else if(i==word_number_paste)
+				else
 				{
-					line+=line_words[i]+" "+word;
+					line+=line_copy_words[i]+" ";
+				}
+			}
+			if(word_number_paste==0)
+			{
+				line_paste=word+prog_lines[line_number_paste-1];
+			}
+			else
+			{
+			for(int i=0;i<line_paste_words.length;i++)
+			{if(i==word_number_paste-1)
+				{
+					line_paste+=line_copy_words[i]+" "+word;
 				}
 				else
 				{
-					line+=line_words[i]+" ";
+					line_paste+=line_copy_words[i]+" ";
 				}
 			}
 			}
 			
 			for(int i=0;i<prog_lines.length;i++)
-			{if(i==line_number_copy-1)
-			{prog+=line+"\n";}
+			{if(i==line_number_paste-1)
+			{prog+=line_paste+"\n";}
+			else if(i==line_number_copy-1)
+			{
+				prog+=line+"\n";
+			}
 			else
 			{
 			prog+=prog_lines[i]+"\n";
@@ -1471,7 +1504,7 @@ public static String voiceEdit()
 			String insert_word=alphabetRecognize();
 			if(word_number==0)
 			{
-				line=insert_word+line;
+				line=insert_word+prog_lines[line_number-1];
 			}
 			else
 			{
@@ -1520,9 +1553,9 @@ public static void voicePause()
 	{System.out.println("Pausing");
 	while(!s.equalsIgnoreCase("start"))
 	{s=voceRecognize();
-	 System.out.println("Recognized: "+s);
+	 System.out.println("Paused! "+s);
 	}
-	System.out.println("Starting");}
+	System.out.println("Starting!");}
 	
 }
     public static String voceRecognize()
@@ -1550,8 +1583,9 @@ public static void voicePause()
 		"file:C:/Users/Sri/Desktop/voce-0.9.1/voce-0.9.1/lib/gram", "speech");
         voce.SpeechInterface.setRecognizerEnabled(true);
         //System.exit(0);
-        voicePause();
         TextEditor f=new TextEditor();
+        voicePause();
+       
         //String [] keywords={ "int","float","char","double"};
         Scanner scan=new Scanner(System.in);
         String s="";
@@ -1630,7 +1664,7 @@ public static void voicePause()
         
         else if(s.equalsIgnoreCase("spell"))
         {word=alphabetRecognize();
-         prog+=word+";\n";
+         prog+=word+"\n";
         }
         
         if(!declare&&!edit)
