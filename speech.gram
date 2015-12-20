@@ -1,0 +1,27 @@
+#JSGF V1.0;
+
+/**
+ * JSGF Digits Grammar for Hello World example
+ */
+
+grammar speech;
+
+public <alphabets> = (alpha|beta|charlie|delta|echo|fox|gold|hotel|india|juliet|Kilo|lima|mike|november|oscar|Papa|Queen|Romeo|Sierra|Tango|Uniform|Victor|value|Whiskey|x|yankee|zero|capital|small);
+
+public <numbers>=  (zero | one | two | three |triple| four | five | six | seven | eight | nine);
+
+public <characters>=(delete|space|term|terminate|tab|return|not|at|pound|dollar|percent|exponent|or|pipe|minus|dash|score|under|plus|equal|equals|star|period|dot|comma|come|question|quest|great|less|braces|brace|open|close|square|block|quote|single|double|slash|forward|back|colon|normal|semi);
+
+public <keywords> = (next| point |include | standard | system | library | declare| spell| structure | function | declare| call| void| input|change| control|if| end| last| while| for| do | space | star| slash |next|macro|define);
+
+public <datatypes> =(integer|character|float|double|long|point|list|structure|void|none);
+
+public <include> =(standard|system|library);
+
+public <main> = (include|structure|function|change|control|input|edit|spell|test|print|display);
+
+public <function>=(declare|call);
+
+public <utils> =(next|pause|start|begin|sleep|finish|digit|number|previous);
+
+public <others> =(insert|copy|cut|find|Replace|return|single|word|line|new|hello|world|apple|ball|cat|dog|elephant|fast|intersect);
