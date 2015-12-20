@@ -5,6 +5,7 @@ as part of the Speech Recognition course at Columbia University.
 To run the demo program: 
 
 1)Download the Jar file.
+
 2)Use Command Prompt to execute the Jar file using java -jar Speech.jar
 
 Detailed instructions on the usage of each available function is described in the user manual.
